@@ -14,13 +14,20 @@
   "author": "REPLACE_WITH_YOUR_NAME",
   "license": "UNLICENSED",
   "dependencies": {
+    "@aws-amplify/api": "^5.4.16",
+    "@aws-amplify/auth": "^5.6.15",
+    "aws-amplify": "^5.3.27",
     "fragments-ui": "file:",
     "my-project": "file:",
     "oidc-client-ts": "^3.1.0"
   },
-  "source": "src/index.html",
+  "source": "./index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
-    "parcel": "latest"
+    "buffer": "^6.0.3",
+    "parcel": "latest",
+    "process": "^0.11.10",
+    "punycode": "^2.3.1",
+    "querystring-es3": "^0.2.1"
   }
 }

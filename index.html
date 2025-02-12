@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>Fragments UI</title>
     <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
-    <script type="module" src="./src/app.js"></script>
-  </head>
-  <body>
+    <script type="module" src="src/app.js" defer></script>
+</head>
+<body>
     <h1>Fragments UI</h1>
+
     <section>
-      <nav>
-        <button id="login">Login</button>
-      </nav>
+        <nav>
+            <button id="login">Login</button>
+            <button id="logout">Logout</button>
+        </nav>
+        <br /><br />
     </section>
+
     <section hidden id="user">
-      <h2>Hello <span class="username"></span>!</h2>
+        <h2>Hello <span class="username"></span>!</h2>
     </section>
-  </body>
+
+    <section>
+        <button id="getFragments">Get My Fragments</button>
+        <div id="getContainer"></div>
+    </section>
+
+    <!-- ✅ ADDED MISSING getFragmentById FORM -->
+    <section>
+        <h3>Get Fragment by ID</h3>
+        <form id="getFragmentById">
+            <input type="text" name="fragmentId" placeholder="Enter Fragment ID" required />
+            <button type="submit">Get Fragment</button>
+        </form>
+        <div id="fragmentContainer"></div>
+    </section>
+
+    <section>
+        <h3>POST Fragments</h3>
+        <form id="postFragmentTxt">
+            <select name="type">  <!-- ✅ Added name="type" -->
+                <option value="text">Text/Plain</option>
+            </select>
+            <br /><br />
+            <input type="text" name="value" placeholder="Fragment text" required />  <!-- ✅ Added name="value" -->
+            <br /><br />
+            <button type="submit">Post Fragment</button>
+        </form>
+        <div id="postContainer"></div>
+    </section>
+</body>
 </html>
