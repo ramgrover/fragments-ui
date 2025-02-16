@@ -2,52 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments UI</title>
-    <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="src/app.js" defer></script>
 </head>
-<body>
-    <h1>Fragments UI</h1>
+<body class="bg-gray-900 text-white flex flex-col items-center py-10">
 
-    <section>
-        <nav>
-            <button id="login">Login</button>
-            <button id="logout">Logout</button>
-        </nav>
-        <br /><br />
+    <h1 class="text-4xl font-bold mb-6 text-blue-400">Fragments UI</h1>
+
+    <!-- Navigation -->
+    <section class="mb-6 flex gap-4">
+        <button id="login" class="px-4 py-2 bg-green-500 rounded-lg hover:bg-green-600">Login</button>
+        <button id="logout" class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-600">Logout</button>
     </section>
 
-    <section hidden id="user">
-        <h2>Hello <span class="username"></span>!</h2>
+    <!-- User Info -->
+    <section hidden id="user" class="bg-gray-800 p-4 rounded-lg shadow-md w-80 text-center">
+        <h2 class="text-lg font-semibold">Hello, <span class="username text-blue-300"></span>!</h2>
     </section>
 
-    <section>
-        <button id="getFragments">Get My Fragments</button>
-        <div id="getContainer"></div>
+    <!-- Get Fragments -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
+        <button id="getFragments" class="w-full py-2 bg-blue-500 rounded-lg hover:bg-blue-600">Get My Fragments</button>
+        <div id="getContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
     </section>
 
-    <!-- ✅ ADDED MISSING getFragmentById FORM -->
-    <section>
-        <h3>Get Fragment by ID</h3>
-        <form id="getFragmentById">
-            <input type="text" name="fragmentId" placeholder="Enter Fragment ID" required />
-            <button type="submit">Get Fragment</button>
+    <!-- Get Fragment by ID -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
+        <h3 class="text-lg font-semibold mb-2">Get Fragment by ID</h3>
+        <form id="getFragmentById" class="flex flex-col gap-3">
+            <input type="text" name="fragmentId" class="p-2 rounded bg-gray-700 text-white" placeholder="Enter Fragment ID" required />
+            <button type="submit" class="py-2 bg-purple-500 rounded-lg hover:bg-purple-600">Get Fragment</button>
         </form>
-        <div id="fragmentContainer"></div>
+        <!-- ✅ Moved the output div BELOW the button -->
+        <div id="fragmentContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
     </section>
 
-    <section>
-        <h3>POST Fragments</h3>
-        <form id="postFragmentTxt">
-            <select name="type">  <!-- ✅ Added name="type" -->
+    <!-- Post Fragment -->
+    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
+        <h3 class="text-lg font-semibold mb-2">Post a Fragment</h3>
+        <form id="postFragmentTxt" class="flex flex-col gap-3">
+            <select name="type" class="p-2 rounded bg-gray-700 text-white">
                 <option value="text">Text/Plain</option>
             </select>
-            <br /><br />
-            <input type="text" name="value" placeholder="Fragment text" required />  <!-- ✅ Added name="value" -->
-            <br /><br />
-            <button type="submit">Post Fragment</button>
+            <input type="text" name="value" class="p-2 rounded bg-gray-700 text-white" placeholder="Fragment text" required />
+            <button type="submit" class="py-2 bg-green-500 rounded-lg hover:bg-green-600">Post Fragment</button>
         </form>
-        <div id="postContainer"></div>
+        <div id="postContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
     </section>
+
 </body>
 </html>

@@ -8,7 +8,7 @@ async function init() {
   const getFragmentByIdForm = document.querySelector('#getFragmentById');
   const getFragmentsBtn = document.querySelector('#getFragments');
   const getContainer = document.querySelector('#getContainer');
-
+  const fragmentContainer = document.querySelector('#fragmentContainer');
   // Post Fragments UI Elements
   const postFragmentTxt = document.querySelector('#postFragmentTxt');
   const postContainer = document.querySelector('#postContainer');
@@ -42,7 +42,7 @@ async function init() {
       event.preventDefault();
       const fragmentId = event.target.elements[0].value;
       const data = await getFragmentById_API(user, fragmentId);
-      getContainer.innerText = data || 'No fragment found';
+      fragmentContainer.innerText = data ? JSON.stringify(data, null, 2) : 'No fragments found';
     };
   }
 
@@ -74,7 +74,7 @@ async function init() {
       console.log('Posting Fragment:', toSend);
 
       let response = await postFragment_API(user, toSend);
-      postContainer.innerText = response ? JSON.stringify(response.data, null, 2) : 'Error posting fragment';
+      postContainer.innerText = response ? JSON.stringify(response.data.fragment.id, null, 2) : 'Error posting fragment';
     };
   }
 }
