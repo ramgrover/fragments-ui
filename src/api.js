@@ -1,104 +1,79 @@
-// src/api.js
-
-// Fragments microservice API to use, defaults to localhost:8080 if not set in env
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
 /**
- * Given an authenticated user, request all fragments for this user from the
- * fragments microservice. We expect a user to have an idToken attached, so we can send that along with the request.
+ * Fetch the list of fragments for an authenticated user.
  */
 export async function getUserFragments(user) {
-  console.log('Requesting user fragments data...');
-  try {
-    const res = await fetch(`${apiUrl}/v1/fragments`, {
-      headers: user.authorizationHeaders(),
-    });
+    try {
+        const res = await fetch(`${apiUrl}/v1/fragments?expand=1`, {
+            headers: user.authorizationHeaders(),
+        });
 
-    if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`);
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
+        return await res.json();
+    } catch (err) {
+        console.error('Error fetching fragments:', err);
+        return { error: err.message };
     }
-
-    const data = await res.json();
-    console.log('Successfully got user fragments data', { data });
-    return data;
-  } catch (err) {
-    console.error('Unable to call GET /v1/fragments', { err });
-    return { error: err.message };
-  }
 }
 
 /**
- * Posts a new fragment for the authenticated user.
- *
- * @param {Object} user - The authenticated user.
- * @param {Object} text - The fragment text to be posted.
- * @returns {Object} - The response data from the API.
+ * Fetch a specific fragment by ID.
  */
-export async function postFragment_API(user, text) {
-  console.log('Posting fragment data...', text);
-  try {
-    // Validate Content-Type
-    const validTypes = ['text/plain', 'application/json', 'text/markdown'];
-    if (!validTypes.includes(text.type)) {
-      throw new Error(`Invalid content type: ${text.type}`);
-    }
-    console.log(text);
-    const res = await fetch(`${apiUrl}/v1/fragments`, {
-      method: 'POST',
-      headers: {
-        ...user.authorizationHeaders(), // Corrected Authorization header
-        'Content-Type': text.type, // Ensure valid Content-Type
-      },
-      body: Buffer.from(text.value), 
-    });
+export async function getFragmentById_API(user, fragmentId) {
+    try {
+        const res = await fetch(`${apiUrl}/v1/fragments/${fragmentId}`, {
+            headers: user.authorizationHeaders(),
+        });
 
-    if (!res.ok) {
-      const errorBody = await res.text();
-      throw new Error(`${res.status} ${res.statusText}: ${errorBody}`);
-    }
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
-    const data = await res.json();
-    console.log('Got the Response.', data);
-    return { data, type: 'json' };
-  } catch (err) {
-    console.error('Unable to call POST /v1/fragments', err);
-    return { type: 'json', data: { error: err.message } };
-  }
+        return await res.text(); // Handling different content types
+    } catch (err) {
+        console.error('Error fetching fragment:', err);
+        return { error: err.message };
+    }
 }
 
 /**
- * Fetches a fragment by ID for the authenticated user.
- *
- * @param {Object} user - The authenticated user.
- * @param {string} id - The ID of the fragment.
- * @returns {string} - The full HTTP response format.
+ * Post a new fragment with specified type.
  */
-export async function getFragmentById_API(user, id) {
-  console.log('Requesting to get fragment data...');
-  console.log(`Fetching fragment with ID: ${id}`);  
+export async function postFragment_API(user, fragmentData) {
+    try {
+        const res = await fetch(`${apiUrl}/v1/fragments`, {
+            method: 'POST',
+            headers: {
+                ...user.authorizationHeaders(),
+                'Content-Type': fragmentData.type,
+            },
+            body: fragmentData.value,
+        });
 
-  try {
-    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
-      headers: user.authorizationHeaders(),
-    }); 
+        if (!res.ok) throw new Error(await res.text());
 
-    if (!res.ok) {
-      const data = await res.json();
-      return { data, type: 'json' };
+        return await res.json();
+    } catch (err) {
+        console.error('Error posting fragment:', err);
+        return { error: err.message };
     }
+}
 
-    const headers = [];
-    res.headers.forEach((value, key) => {
-      headers.push(`${key}: ${value}`);
-    });
+/**
+ * Delete a fragment by ID.
+ */
+export async function deleteFragment_API(user, fragmentId) {
+    try {
+        const res = await fetch(`${apiUrl}/v1/fragments/${fragmentId}`, {
+            method: 'DELETE',
+            headers: user.authorizationHeaders(),
+        });
 
-    const body = await res.text();
-    const responseString = `HTTP/1.1 ${res.status} ${res.statusText}\n${headers.join('\n')}\n\n${body}`;
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
-    console.log('Got user fragment', { responseString });
-    return responseString;
-  } catch (err) {
-    console.error('Unable to call GET /v1/fragments', { err });
-    return { type: 'json', data: { error: err.message } };
-  }
+        return { success: true };
+    } catch (err) {
+        console.error('Error deleting fragment:', err);
+        return { error: err.message };
+    }
 }
