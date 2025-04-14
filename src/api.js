@@ -11,7 +11,12 @@ export async function getUserFragments(user) {
 
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
-        return await res.json();
+        const contentType = res.headers.get("Content-Type");
+        if (contentType && contentType.includes("application/json")) {
+            return await res.json();
+        } else {
+            return await res.text();
+        }
     } catch (err) {
         console.error('Error fetching fragments:', err);
         return { error: err.message };
@@ -29,7 +34,12 @@ export async function getFragmentById_API(user, fragmentId) {
 
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
 
-        return await res.text(); // Handling different content types
+        const contentType = res.headers.get("Content-Type");
+        if (contentType && contentType.includes("application/json")) {
+            return await res.json();
+        } else {
+            return await res.text();
+        }
     } catch (err) {
         console.error('Error fetching fragment:', err);
         return { error: err.message };
@@ -45,12 +55,20 @@ export async function postFragment_API(user, fragmentData) {
             method: 'POST',
             headers: {
                 ...user.authorizationHeaders(),
-                'Content-Type': fragmentData.type,
+                'Content-Type': fragmentData.type || 'application/json',
             },
             body: fragmentData.value,
         });
 
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) {
+            const errorMessage = await res.text();
+            try {
+                const errorJson = JSON.parse(errorMessage);
+                throw new Error(errorJson.message || errorMessage);
+            } catch (jsonError) {
+                throw new Error(errorMessage);
+            }
+        }
 
         return await res.json();
     } catch (err) {

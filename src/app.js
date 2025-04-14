@@ -51,16 +51,23 @@ async function init() {
       event.preventDefault();
       const fragmentId = event.target.elements[0].value;
       const data = await getFragmentById_API(user, fragmentId);
-
+      console.log('Response from getFragmentById_API:', data);
       if (data) {
         const fragmentData = data.fragment || data;
         // Show the expanded fragment with all metadata
-        fragmentContainer.innerHTML = `
-          <div><strong>Fragment ID:</strong> ${fragmentData.id}</div>
-          <div><strong>Name:</strong> ${fragmentData.name || 'Unnamed'}</div>
-          <div><strong>Type:</strong> ${fragmentData.type}</div>
-          <div><strong>Content:</strong> <pre>${fragmentData.value}</pre></div>
-        `;
+        if (typeof data === 'string' || typeof data === 'number') {
+          fragmentContainer.innerHTML = `
+            <div><strong>Content:</strong> <pre>${data}</pre></div>
+          `;
+        } else {
+          const fragmentData = data.fragment || data;
+          fragmentContainer.innerHTML = `
+            <div><strong>Fragment ID:</strong> ${fragmentData.id}</div>
+            <div><strong>Name:</strong> ${fragmentData.name || 'Unnamed'}</div>
+            <div><strong>Type:</strong> ${fragmentData.type}</div>
+            <div><strong>Content:</strong> <pre>${fragmentData.value}</pre></div>
+          `;
+        }
       } else {
         fragmentContainer.innerText = 'No fragment found for the given ID';
       }
@@ -96,10 +103,11 @@ async function init() {
       let response = await postFragment_API(user, toSend);
 
       // ✅ Check if response structure is correct
-      if (response && response.data && response.data.id) {
-        postContainer.innerText = `Fragment created with ID: ${response.data.id} and Name: ${response.data.name || 'Unnamed'}`;
+      if (response && response.fragment && response.fragment.id) {
+        postContainer.innerText = `✅ Fragment created with ID: ${response.fragment.id}`;
       } else {
-        postContainer.innerText = 'Error posting fragment';
+        console.error('Unexpected response format:', response);
+        postContainer.innerText = '⚠️ Error posting fragment';
       }
     };
   }
