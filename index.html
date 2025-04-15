@@ -1,58 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments UI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="src/app.js" defer></script>
-</head>
-<body class="bg-gray-900 text-white flex flex-col items-center py-10">
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="header-container">
+     
+      <h1>Fragments UI</h1>
+    </div>
 
-    <h1 class="text-4xl font-bold mb-6 text-blue-400">Fragments UI</h1>
-
-    <!-- Navigation -->
-    <section class="mb-6 flex gap-4">
-        <button id="login" class="px-4 py-2 bg-green-500 rounded-lg hover:bg-green-600">Login</button>
-        <button id="logout" class="px-4 py-2 bg-red-500 rounded-lg hover:bg-red-600">Logout</button>
+    <section>
+      <nav><button id="login">Login</button> <button id="logout">Logout</button></nav>
     </section>
 
-    <!-- User Info -->
-    <section hidden id="user" class="bg-gray-800 p-4 rounded-lg shadow-md w-80 text-center">
-        <h2 class="text-lg font-semibold">Hello, <span class="username text-blue-300"></span>!</h2>
+    <section hidden id="user">
+      <h2>Hello <span class="username"></span>!</h2>
+      <div id="middle">
+        <!-- Fragment Creation Form -->
+        <div id="form_div" class="fragment-create">
+          <h3>Create New Fragment</h3>
+          <form id="create-fragment-form">
+            <div>
+              <label for="fragment-type">Type:</label>
+              <select id="fragment-type" required>
+                <option value="text/plain">Plain Text</option>
+                <option value="text/markdown">Markdown</option>
+                <option value="text/html">HTML</option>
+                <option value="application/yaml">YMAL</option>
+                <option value="application/json">JSON</option>
+                <option value="image/png">PNG</option>
+                <option value="image/jpeg">JPEG</option>
+                <option value="image/webp">WebP</option>
+                <option value="image/gif">GIF</option>
+                <option value="image/avif">AVIF</option>
+              </select>
+            </div>
+            <div>
+              <label for="fragment-content">Add Your Fragment:</label>
+              <textarea id="fragment-content" placeholder="Write fragment data..."></textarea>
+
+              <br />
+              <!-- File Input for Loading Content -->
+              <label for="fragment_file">Upload Your File:</label>
+              <input type="file" id="fragment_file" />
+              <div id="fileNameDisplay">No file chosen</div>
+            </div>
+            <button type="submit">Create Fragment</button>
+          </form>
+        </div>
+
+        <!-- Fragment List -->
+        <div id="existing_fragments" class="fragment-list">
+          <h3>My Fragments</h3>
+          <br />
+          <button id="refresh-fragments">Refresh List</button>
+          <div id="fragments-container"></div>
+          <br />
+        </div>
+      </div>
     </section>
 
-    <!-- Get Fragments -->
-    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
-        <button id="getFragments" class="w-full py-2 bg-blue-500 rounded-lg hover:bg-blue-600">Get My Fragments</button>
-        <div id="getContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
-    </section>
+    <!-- Display Fragments -->
+     <div class="display">
+    <section>
+      <div id="view_fragments">
+        <h3>Manage Fragments</h3>
 
-    <!-- Get Fragment by ID -->
-    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
-        <h3 class="text-lg font-semibold mb-2">Get Fragment by ID</h3>
-        <form id="getFragmentById" class="flex flex-col gap-3">
-            <input type="text" name="fragmentId" class="p-2 rounded bg-gray-700 text-white" placeholder="Enter Fragment ID" required />
-            <button type="submit" class="py-2 bg-purple-500 rounded-lg hover:bg-purple-600">Get Fragment</button>
-        </form>
-        <div id="fragmentContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
-    </section>
+        <!-- Dropdown and Buttons -->
+        <div class="view-controls">
+          <!-- Dropdown to select fragment -->
+          <select id="fragmentSelect">
+            <option value="" disabled selected>Select a fragment</option>
+          </select>
 
-    <!-- Post Fragment -->
-    <section class="bg-gray-800 p-6 rounded-lg shadow-md w-96 my-4">
-        <h3 class="text-lg font-semibold mb-2">Post a Fragment</h3>
-        <form id="postFragmentTxt" class="flex flex-col gap-3">
-            <select name="type" id="fragmentType" class="p-2 rounded bg-gray-700 text-white">
-                <option value="text">Text/Plain</option>
-                <option value="json">JSON</option>
-                <option value="markdown">Markdown</option>
-            </select>
-            <input type="text" name="value" id="textInput" class="p-2 rounded bg-gray-700 text-white" placeholder="Fragment text" required />
-            <input type="file" id="fileInput" class="p-2 rounded bg-gray-700 text-white" hidden />
-            <button type="submit" class="py-2 bg-green-500 rounded-lg hover:bg-green-600">Post Fragment</button>
-        </form>
-        <div id="postContainer" class="mt-4 p-2 bg-gray-700 rounded text-sm break-words"></div>
+          <!-- Buttons -->
+          <div class="button-group">
+            <button id="viewFragmentBtn">View Fragment</button>
+            <button id="editFragmentBtn">Edit Fragment</button>
+            <button id="convertFragmentBtn">Convert Fragment</button>
+            <button id="deleteFragmentBtn">Delete Fragment</button>
+          </div>
+        </div>
+        <!-- Area for modifying fragment content -->
+        <div id="edit-convert-container" class="edit-convert-container">
+          <!-- Content will be dynamically injected here -->
+        </div>
+        <!-- Area to display fragment content -->
+        <div id="fragment-display" class="fragment-display"></div>
+      </div>
     </section>
-
-</body>
+  </div></div>
+  </body>
 </html>

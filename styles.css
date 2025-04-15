@@ -1,0 +1,159 @@
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  color: #333;
+}
+
+h1, h2, h3 {
+  font-family: 'Segoe UI Semibold', sans-serif;
+  color: #2a2a2a;
+}
+
+button {
+  background-color: #5c6bc0;
+  color: white;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #3f51b5;
+  transform: scale(1.05);
+}
+
+select, textarea, input[type="file"] {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.3em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+input[type="file"] {
+  background-color: #fff;
+}
+
+/* Header */
+.header-container {
+  background: linear-gradient(135deg, #5c6bc0, #8e99f3);
+  padding: 1.5em;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-container h1 {
+  margin: 0;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  padding: 1em;
+}
+
+/* User Section */
+#user {
+  padding: 2em;
+  background-color: white;
+  margin: 2em auto;
+  width: 90%;
+  max-width: 1100px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Middle Section Layout */
+#middle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+}
+
+/* Fragment Creation Form */
+.fragment-create {
+  flex: 1 1 45%;
+  background-color: #f7f9fc;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Fragment List */
+.fragment-list {
+  flex: 1 1 45%;
+  background-color: #f9fbe7;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+#fragments-container {
+  margin-top: 1em;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1em;
+  background-color: #fff;
+}
+
+/* Display Fragments Section */
+.display {
+  margin: 2em auto;
+  padding: 2em;
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 1100px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Controls */
+.view-controls {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.view-controls select {
+  flex: 1;
+  min-width: 200px;
+}
+
+.button-group {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+/* Fragment Display and Edit */
+.fragment-display, 
+.edit-convert-container {
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #f1f8e9;
+  border-radius: 10px;
+  border: 1px solid #cddc39;
+  min-height: 80px;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
